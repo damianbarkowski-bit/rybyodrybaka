@@ -1,0 +1,49 @@
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the "ea-php82" package as the default "PHP" programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+  AddType application/xml .xml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+# Cache statycznych zasobów przez 1 rok
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png             "access plus 1 year"
+  ExpiresByType image/jpeg            "access plus 1 year"
+  ExpiresByType image/webp            "access plus 1 year"
+  ExpiresByType image/svg+xml         "access plus 1 year"
+  ExpiresByType image/x-icon          "access plus 1 year"
+  ExpiresByType text/css              "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2            "access plus 1 year"
+  ExpiresByType font/woff             "access plus 1 year"
+  ExpiresByType text/html             "access plus 1 hour"
+  ExpiresByType application/xml       "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(png|jpg|jpeg|webp|svg|ico|css|js|woff2|woff)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
+</IfModule>
+
+# Kompresja GZIP
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/xml
+</IfModule>
+
+# ── Przekierowania 301: stare kotwice → podstrony ──
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Przekierowania z hash-kotwic obsługiwane po stronie JS (hash nie jest wysyłany do serwera)
+  # Bezpośrednie 301 dla ewentualnych starych URLi:
+  RewriteRule ^o-nas\.html$ /o-nas/ [R=301,L]
+  RewriteRule ^jakosc\.html$ /jakosc/ [R=301,L]
+  RewriteRule ^oferta\.html$ /oferta/ [R=301,L]
+  RewriteRule ^sklepy\.html$ /sklepy/ [R=301,L]
+  RewriteRule ^kontakt\.html$ /kontakt/ [R=301,L]
+</IfModule>
